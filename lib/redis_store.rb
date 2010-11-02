@@ -1,4 +1,4 @@
-gem 'redis', '~> 1.0'
+gem 'redis', '~> 2.0'
 gem 'activesupport', '~> 2.3'
 gem 'actionpack', '~> 2.3'
 

@@ -1,9 +1,9 @@
 class RedisStore
-  class MarshalledClient < Redis::Client
+  class MarshalledClient < Redis
     def marshalled_set(key, val, options = nil)
       val = marshal_value(val, options)
       if expires_in = expires_in(options)
-        set_with_expire(key, val, expires_in)
+        setex(key, val, expires_in)
       else
         set(key, val)
       end
@@ -26,7 +26,7 @@ class RedisStore
     end
 
     def marshalled_get(key, options = nil)
-      result = call_command([:get, key])
+      result = get(key)
       result = Marshal.load result if unmarshal?(result, options)
       result
     end
