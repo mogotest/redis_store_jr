@@ -12,7 +12,8 @@ class RedisStore
     def marshalled_setnx(key, val, options = nil)
       val = marshal_value(val, options)
       if expires_in = expires_in(options)
-        setnx_with_expire(key, val, expires_in)
+        set(key, val)
+        expire(key, expires_in)
       else
         setnx(key, val)
       end
