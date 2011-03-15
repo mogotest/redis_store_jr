@@ -38,7 +38,12 @@ module ActionController
         expiry  = options[:expires_in] || options[:expire_after] || nil
         
         write_options = expiry.nil? ? {} : { :expires_in => expiry }
-        @data.marshalled_set(prefixed(sid), session_data, write_options)
+
+        begin
+          @data.marshalled_set(prefixed(sid), session_data, write_options)
+        rescue TypeError
+          @data.marshalled_set(prefixed(sid), session_data, write_options.merge(:raw => true))
+        end
           
         return true
       rescue Errno::ECONNREFUSED
